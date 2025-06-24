@@ -6,7 +6,6 @@ def haversine(coord1, coord2):
     R = 6371.0  # Earth's radius in kilometers
 
     # Convert decimal degrees to radians (Trig Conversion)
-    # Formula: radians = degrees × (π / 180)
     lat1, lon1 = map(radians, coord1)
     lat2, lon2 = map(radians, coord2)
 
@@ -15,9 +14,6 @@ def haversine(coord1, coord2):
     dlon = lon2 - lon1
 
     # Haversine formula:
-    # a = sin²(Δlat / 2) + cos(lat1) × cos(lat2) × sin²(Δlon / 2)
-    # c = 2 × atan2(√a, √(1−a))
-    # distance = R × c
     a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
@@ -27,24 +23,18 @@ def haversine(coord1, coord2):
 my_location = (34.144260, -118.001945)     # Monrovia
 
 # === Friend Locations ===
-friend1 = (34.052235, -118.243683)         # Los Angeles
-friend2 = (35.689487, 139.691711)          # Tokyo
-friend3 = (40.712776, -74.005974)          # New York City
-
-# Print each friend’s coordinates
-print("Friend 1 (Los Angeles):", friend1)
-print("Friend 2 (Tokyo):", friend2)
-print("Friend 3 (New York City):", friend3)
-
-# Store friends in a dictionary
 friends = {
-    "Friend 1 (Los Angeles)": friend1,
-    "Friend 2 (Tokyo)": friend2,
-    "Friend 3 (New York City)": friend3
+    "Friend 1 (Los Angeles)": (34.052235, -118.243683),
+    "Friend 2 (Tokyo)": (35.689487, 139.691711),
+    "Friend 3 (New York City)": (40.712776, -74.005974)
 }
 
+# Print each friend’s coordinates
+for name, coords in friends.items():
+    print(f"{name}: {coords}")
+
 # === Calculate distances using the Haversine formula ===
-distances = {name: haversine(my_location, coord) for name, coord in friends.items()}
+distances = {name: haversine(my_location, coords) for name, coords in friends.items()}
 
 # === Find the friend with the max distance ===
 furthest_friend = max(distances, key=distances.get)
